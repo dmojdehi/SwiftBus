@@ -112,6 +112,21 @@ class SwiftBusDataParser: NSObject {
             return
         }
         
+        // parse the paths; *multiple* path segments, possibly disjoint
+        // each of those segments is simply a list of lat/lon points
+        let paths = xml["body"]["route"]["path"]
+        for path in paths.all {
+            var currentSubpath = [TransitPathPoint]()
+            let points = path["point"]
+            for point in points.all {
+                let lat = (point.element?.allAttributes["lat"]?.text as NSString?)?.doubleValue ?? 0.0
+                let lon = (point.element?.allAttributes["lon"]?.text as NSString?)?.doubleValue ?? 0.0
+                let pathPoint = TransitPathPoint(lat, lon)
+                currentSubpath.append(pathPoint)
+            }
+            currentRoute.routePaths.append(currentSubpath)
+        }
+        
         currentRoute.routeTag = routeTag
         currentRoute.routeTitle = routeTitle
         currentRoute.latMin = (latMin as NSString).doubleValue
