@@ -18,6 +18,7 @@ private let routeColorEncoderString = "kRouteColorEncoder"
 private let oppositeColorEncoderString = "kOppositeColorEncoder"
 private let representedRouteColorEncoderString = "kRepresentedRouteColorEncoder"
 private let representedOppositeColorEncoderString = "kRepresentedOppositeColorEncoder"
+private let representedRoutePath = "kRepresentedRoutePath"
 private let vehiclesOnRouteEncoderString = "kVehiclesOnRouteEncoder"
 private let latMinEncoderString = "kLatMinEncoder"
 private let latMaxEncoderString = "kLatMaxEncoder"
@@ -272,6 +273,7 @@ open class TransitRoute: NSObject, NSCoding {
         self.latMax = newRoute.latMax
         self.lonMin = newRoute.lonMin
         self.lonMax = newRoute.lonMax
+        self.routePath = newRoute.routePath
     }
     
     //MARK: NSCoding
@@ -291,7 +293,8 @@ open class TransitRoute: NSObject, NSCoding {
         self.oppositeColor = aDecoder.decodeObject(forKey: oppositeColorEncoderString) as? String ?? ""
         self.representedRouteColor = aDecoder.decodeObject(forKey: representedRouteColorEncoderString) as? SwiftBusColor ?? SwiftBusColor.clear
         self.representedOppositeColor = aDecoder.decodeObject(forKey: representedOppositeColorEncoderString) as? SwiftBusColor ?? SwiftBusColor.clear
-        
+        self.routePath = aDecoder.decodeObject(forKey: representedRoutePath) as? [ [ TransitPathPoint ] ] ?? []
+
         self.vehiclesOnRoute = aDecoder.decodeObject(forKey: vehiclesOnRouteEncoderString) as? [TransitVehicle] ?? []
         self.latMin = aDecoder.decodeDouble(forKey: latMinEncoderString)
         self.latMax = aDecoder.decodeDouble(forKey: latMaxEncoderString)
@@ -314,5 +317,6 @@ open class TransitRoute: NSObject, NSCoding {
         aCoder.encode(self.latMax, forKey: latMaxEncoderString)
         aCoder.encode(self.lonMin, forKey: lonMinEncoderString)
         aCoder.encode(self.lonMax, forKey: lonMaxEncoderString)
+        aCoder.encode(self.routePath, forKey: representedRoutePath)
     }
 }
