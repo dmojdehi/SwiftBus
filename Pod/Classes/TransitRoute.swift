@@ -252,7 +252,7 @@ open class TransitRoute: NSObject, NSCoding {
         }
         return polys
     }
-    
+    #endif
     
     //Used to update all the data after getting the route information
     fileprivate func updateData(_ newRoute: TransitRoute) {
