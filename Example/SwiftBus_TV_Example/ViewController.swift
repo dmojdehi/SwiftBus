@@ -25,24 +25,22 @@ class ViewController: UIViewController {
     }
 
     @IBAction func agencyListTouched() {
-        SwiftBus.shared.transitAgencies() { result in
+        let route = TransitRoute(routeTag: "36", agencyTag: "sf-muni")
+        route.configuration(){ (result) in
+
             switch result {
-            case let .success(agencies):
-                let agenciesString = "Number of agencies loaded: \(agencies.count)"
-                let agencyNamesString = agencies.map({_, agency in "\(agency.agencyTitle)"})
-                
-                print("-----")
-                print(agenciesString)
-                print(agencyNamesString)
-                
-                //self.showAlertControllerWithTitle(agenciesString, message: "\(agencyNamesString)")
+            case let .success(loadedRoute):
+                let count2 = loadedRoute.routePath.count
+                print("Got \(count2) routePaths!")
+
             case let .error(error):
-                print("error loading the agency list: \(error.localizedDescription)")
-                //self.showAlertControllerWithTitle("Error", message: error.localizedDescription)
-                break
+                print("error loading the route: \(error.localizedDescription)")
+
             }
+
         }
     }
-
+        
+    
 }
 
