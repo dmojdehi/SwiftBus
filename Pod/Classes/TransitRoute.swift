@@ -249,7 +249,7 @@ open class TransitRoute: NSObject, NSCoding {
         }
         
         // make the map elements, too
-        print("Making polyline overlay with \(coords.count) stops!")
+        //print("Making polyline overlay with \(coords.count) stops!")
         let polyline = MKPolyline(coordinates:&coords, count: coords.count)
         polyline.title = self.routeTag
         return polyline
