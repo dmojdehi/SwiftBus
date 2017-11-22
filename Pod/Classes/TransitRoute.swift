@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MapKit
 
 private let routeTagEncoderString = "kRouteTagEncoder"
 private let routeTitleEncoderString = "kRouteTitleEncoder"
@@ -35,7 +36,7 @@ open class TransitRoute: NSObject, NSCoding {
     open var oppositeColor: String = ""
     open var representedRouteColor = SwiftBusColor.clear
     open var representedOppositeColor = SwiftBusColor.clear
-    open var routePaths: [ [TransitPathPoint] ] =  []
+    open var routePath: [ [TransitPathPoint] ] =  []
     
     @available(*, deprecated: 1.4, obsoleted: 2.0, message: "Use variable `stops` instead")
     open var stopsOnRoute: [String : [TransitStop]] {
@@ -226,6 +227,36 @@ open class TransitRoute: NSObject, NSCoding {
     open func containsStop(stop: TransitStop) -> Bool {
         return self.containsStop(withTag: stop.stopTag)
     }
+    
+    
+    
+    /**
+     This function builds a MKPolyline from the path segments of the route.
+     
+     - returns: an MKPolyline overlay, suitable for adding to a MKMapView
+     */
+    #if os(macOS) || os(iOS) || os(tvOS)
+    @available(iOS 4.0, tvOS 9.2, *)
+    func routePathAsOverlay() -> MKPolyline {
+        
+        var coords = [CLLocationCoordinate2D]()
+        for path in self.routePath {
+            for point in path {
+                let latLon = CLLocationCoordinate2D(latitude: point.lat, longitude: point.lon)
+                coords.append(latLon)
+            }
+        }
+        
+        // make the map elements, too
+        print("Making polyline overlay with \(coords.count) stops!")
+        let polyline = MKPolyline(coordinates:&coords, count: coords.count)
+        polyline.title = self.routeTag
+        return polyline
+        
+    }
+    #endif
+
+    
     
     //Used to update all the data after getting the route information
     fileprivate func updateData(_ newRoute: TransitRoute) {
