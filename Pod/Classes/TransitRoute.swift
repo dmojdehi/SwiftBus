@@ -104,22 +104,33 @@ open class TransitRoute: NSObject, NSCoding {
         self.configuration() { result in
             switch result {
             case .success:
-                let connectionHandler = SwiftBusConnectionHandler()
-                connectionHandler.requestVehicleLocationData(onRoute: self.routeTag, withAgency: self.agencyTag) { result in
-                    
-                    switch result {
-                    case let .success(locations):
-                        self.vehiclesOnRoute = []
-                        
-                        for vehiclesInDirection in locations.values {
-                            self.vehiclesOnRoute += vehiclesInDirection
-                        }
-                        completion?(.success(self.vehiclesOnRoute))
-                        
-                    case let .error(error):
-                        completion?(.error(error))
-                    }
+                self.vehicleLocationsOnly( completion )
+                
+            case let .error(error):
+                completion?(.error(error))
+            }
+        }
+    }
+    
+    /**
+     Downloads the information about vehicle locations only
+     
+     - parameter completion:    Code that is called when loading is done
+     - parameter vehicles:   Locations of the vehicles
+     */
+    open func vehicleLocationsOnly(_ completion: ((_ vehicles: SwiftBusResult<[TransitVehicle]>) -> Void)?) {
+        let connectionHandler = SwiftBusConnectionHandler()
+        connectionHandler.requestVehicleLocationData(onRoute: self.routeTag, withAgency: self.agencyTag) { result in
+            
+            switch result {
+            case let .success(locations):
+                self.vehiclesOnRoute = []
+                
+                for vehiclesInDirection in locations.values {
+                    self.vehiclesOnRoute += vehiclesInDirection
                 }
+                completion?(.success(self.vehiclesOnRoute))
+                
             case let .error(error):
                 completion?(.error(error))
             }
