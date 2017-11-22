@@ -237,7 +237,7 @@ open class TransitRoute: NSObject, NSCoding {
      */
     #if os(macOS) || os(iOS) || os(tvOS)
     @available(iOS 4.0, tvOS 9.2, *)
-    func routePathAsOverlay() -> MKPolyline {
+    open func routePathAsOverlay() -> MKPolyline {
         
         var coords = [CLLocationCoordinate2D]()
         for path in self.routePath {
