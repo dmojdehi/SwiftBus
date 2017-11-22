@@ -124,7 +124,7 @@ class SwiftBusDataParser: NSObject {
                 let pathPoint = TransitPathPoint(lat, lon)
                 currentSubpath.append(pathPoint)
             }
-            currentRoute.routePaths.append(currentSubpath)
+            currentRoute.routePath.append(currentSubpath)
         }
         
         currentRoute.routeTag = routeTag
