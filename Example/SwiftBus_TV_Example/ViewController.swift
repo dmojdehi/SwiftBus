@@ -31,12 +31,13 @@ class ViewController: UIViewController {
                 let agenciesString = "Number of agencies loaded: \(agencies.count)"
                 let agencyNamesString = agencies.map({_, agency in "\(agency.agencyTitle)"})
                 
-                print("\n-----")
+                print("-----")
                 print(agenciesString)
                 print(agencyNamesString)
                 
                 //self.showAlertControllerWithTitle(agenciesString, message: "\(agencyNamesString)")
             case let .error(error):
+                print("error loading the agency list: \(error.localizedDescription)")
                 //self.showAlertControllerWithTitle("Error", message: error.localizedDescription)
                 break
             }
