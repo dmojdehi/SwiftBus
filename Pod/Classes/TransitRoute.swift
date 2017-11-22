@@ -238,25 +238,20 @@ open class TransitRoute: NSObject, NSCoding {
      */
     #if os(macOS) || os(iOS) || os(tvOS)
     @available(iOS 4.0, tvOS 9.2, *)
-    open func routePathAsOverlay() -> MKPolyline {
-        
-        var coords = [CLLocationCoordinate2D]()
+    open func routePathAsOverlay() -> [MKPolyline] {
+        var polys = [MKPolyline]()
         for path in self.routePath {
+            var coords = [CLLocationCoordinate2D]()
             for point in path {
                 let latLon = CLLocationCoordinate2D(latitude: point.lat, longitude: point.lon)
                 coords.append(latLon)
             }
+            let poly = MKPolyline(coordinates:&coords, count: coords.count)
+            poly.title = self.routeTag
+            polys.append(poly)
         }
-        
-        // make the map elements, too
-        //print("Making polyline overlay with \(coords.count) stops!")
-        let polyline = MKPolyline(coordinates:&coords, count: coords.count)
-        polyline.title = self.routeTag
-        return polyline
-        
+        return polys
     }
-    #endif
-
     
     
     //Used to update all the data after getting the route information
