@@ -239,32 +239,7 @@ open class TransitRoute: NSObject, NSCoding {
     open func containsStop(stop: TransitStop) -> Bool {
         return self.containsStop(withTag: stop.stopTag)
     }
-    
-    
-    
-    /**
-     This function builds a MKPolyline from the path segments of the route.
-     
-     - returns: an MKPolyline overlay, suitable for adding to a MKMapView
-     */
-    #if os(macOS) || os(iOS) || os(tvOS)
-    @available(iOS 4.0, tvOS 9.2, *)
-    open func routePathAsOverlay() -> [MKPolyline] {
-        var polys = [MKPolyline]()
-        for path in self.routePath {
-            var coords = [CLLocationCoordinate2D]()
-            for point in path {
-                let latLon = CLLocationCoordinate2D(latitude: point.lat, longitude: point.lon)
-                coords.append(latLon)
-            }
-            let poly = MKPolyline(coordinates:&coords, count: coords.count)
-            poly.title = self.routeTag
-            polys.append(poly)
-        }
-        return polys
-    }
-    #endif
-    
+
     //Used to update all the data after getting the route information
     fileprivate func updateData(_ newRoute: TransitRoute) {
         self.routeTitle = newRoute.routeTitle
