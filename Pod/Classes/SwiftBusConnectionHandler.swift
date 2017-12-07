@@ -9,7 +9,7 @@
 import Foundation
 import SWXMLHash
 
-enum SwiftBusRequest {
+public enum SwiftBusRequest {
     case allAgencies((SwiftBusResult<[String: TransitAgency]>) -> Void)
     case allRoutes((SwiftBusResult<[String : TransitRoute]>) -> Void)
     case routeConfiguration((SwiftBusResult<TransitRoute>) -> Void)
