@@ -9,14 +9,14 @@
 import Foundation
 import SWXMLHash
 
-class SwiftBusDataParser: NSObject {
+open class SwiftBusDataParser: NSObject {
     
     /// Starts parsing with the specified request type
     ///
     /// - Parameters:
     ///   - xml: xml to parse
     ///   - request: how to parse the xml
-    func startParsing(_ xml: XMLIndexer, request: SwiftBusRequest) {
+    open func startParsing(_ xml: XMLIndexer, request: SwiftBusRequest) {
         if case let .xmlError(error) = xml {
             request.passErrorToClosure(error)
             return
