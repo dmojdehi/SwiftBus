@@ -255,6 +255,7 @@ open class TransitRoute: NSObject, NSCoding {
         self.lonMin = newRoute.lonMin
         self.lonMax = newRoute.lonMax
         self.routePath = newRoute.routePath
+        self.agencyTag = newRoute.agencyTag
     }
     
     //MARK: NSCoding
