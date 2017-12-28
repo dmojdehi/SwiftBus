@@ -19,7 +19,7 @@ open class TransitPrediction: NSObject, NSCoding {
     open var numberOfVehicles: Int = 0
     open var predictionInMinutes: Int = 0
     open var predictionInSeconds: Int = 0
-    open var vehicleTag: Int = 0
+    open var vehicleTag: String = ""
     open var directionName: String = ""
     
     //Basic init
@@ -32,7 +32,7 @@ open class TransitPrediction: NSObject, NSCoding {
     }
     
     //Init with all parameters except number of vehicles
-    public init(predictionInMinutes:Int, predictionInSeconds:Int, vehicleTag:Int) {
+    public init(predictionInMinutes:Int, predictionInSeconds:Int, vehicleTag:String) {
         self.predictionInMinutes = predictionInMinutes
         self.predictionInSeconds = predictionInSeconds
         self.vehicleTag = vehicleTag
@@ -43,7 +43,7 @@ open class TransitPrediction: NSObject, NSCoding {
         self.numberOfVehicles = aDecoder.decodeInteger(forKey: numberOfVehiclesEncoderString)
         self.predictionInMinutes = aDecoder.decodeInteger(forKey: predictionInMinutesEncoderString)
         self.predictionInSeconds = aDecoder.decodeInteger(forKey: predictionInSecondsEncoderString)
-        self.vehicleTag = aDecoder.decodeInteger(forKey: vehicleTagEncoderString)
+        self.vehicleTag = aDecoder.decodeObject(forKey: vehicleTagEncoderString) as? String ?? ""
         if let directionName = aDecoder.decodeObject(forKey: directionNameEncoderString) as? NSString {
             self.directionName = directionName as String
         }

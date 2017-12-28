@@ -301,7 +301,7 @@ open class SwiftBusDataParser: NSObject {
                 for prediction in direction.children {
                     //Getting each individual prediction in minutes
                     
-                    if let predictionInMinutes = Int((prediction.element?.allAttributes["minutes"]?.text) ?? ""), let predictionInSeconds = Int((prediction.element?.allAttributes["seconds"]?.text) ?? ""), let vehicleTag = Int((prediction.element?.allAttributes["vehicle"]?.text) ?? "") {
+                    if let predictionInMinutes = Int((prediction.element?.allAttributes["minutes"]?.text) ?? ""), let predictionInSeconds = Int((prediction.element?.allAttributes["seconds"]?.text) ?? ""), let vehicleTag = (prediction.element?.allAttributes["vehicle"]?.text) {
                         //If all the elements exist
                         
                         let newPrediction = TransitPrediction(predictionInMinutes: predictionInMinutes, predictionInSeconds: predictionInSeconds, vehicleTag: vehicleTag)

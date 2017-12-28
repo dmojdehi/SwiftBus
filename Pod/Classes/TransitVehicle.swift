@@ -19,7 +19,7 @@ private let speedKmHEncoderString = "kSpeedKmHEncoder"
 
 open class TransitVehicle: NSObject, NSCoding {
     
-    open var vehicleId: Int = 0
+    open var vehicleId: String = ""
     open var directionTag: String = ""
     open var lat: Double = 0
     open var lon: Double = 0
@@ -32,7 +32,7 @@ open class TransitVehicle: NSObject, NSCoding {
     public override init() { super.init() }
     
     //Init with proper things as Ints and Doubles
-    public init(vehicleId:Int, directionTag:String, lat:Double, lon:Double, secondsSinceReport:Int, heading:Int, speedKmH:Int) {
+    public init(vehicleId:String, directionTag:String, lat:Double, lon:Double, secondsSinceReport:Int, heading:Int, speedKmH:Int) {
         self.vehicleId = vehicleId
         self.directionTag = directionTag
         self.lat = lat
@@ -44,7 +44,7 @@ open class TransitVehicle: NSObject, NSCoding {
     
     //Init with everything as string, convert in init
     public init(vehicleID:String, directionTag:String, lat:String, lon:String, secondsSinceReport:String, heading:String, speedKmH:String) {
-        self.vehicleId = Int(vehicleID)!
+        self.vehicleId = vehicleID
         self.directionTag = directionTag
         self.lat = (lat as NSString).doubleValue
         self.lon = (lon as NSString).doubleValue
@@ -56,7 +56,7 @@ open class TransitVehicle: NSObject, NSCoding {
     //MARK : NSCoding
     
     public required init(coder aDecoder: NSCoder) {
-        self.vehicleId = aDecoder.decodeInteger(forKey: vehicleIdEncoderString)
+        self.vehicleId = aDecoder.decodeObject(forKey: vehicleIdEncoderString) as? String ?? ""
         self.directionTag = aDecoder.decodeObject(forKey: directionTagEncoderString) as? String ?? ""
         self.lat = aDecoder.decodeDouble(forKey: latEncoderString)
         self.lon = aDecoder.decodeDouble(forKey: lonEncoderString)
